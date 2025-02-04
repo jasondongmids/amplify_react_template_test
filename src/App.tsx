@@ -55,16 +55,21 @@ function App() {
     setBeginTime(Date.now());
   };
   // MATH GAME // CRUD
-  function createUserGameHx() {
+  function createUserGameHx(e) {
+    e.preventDefault();
+    const userAnswerInt = parseInt(userAnswer, 10) || 0;
+    
     client.models.TESTUserGameHx.create({
       username: user?.signInDetails?.loginId,
       number1: number1,
       number2: number2,
       correct_answer: add(number1, number2),
-      user_answer: parseInt(userAnswer),
-      is_correct: add(number1, number2) === parseInt(userAnswer),
-      time_spent: Date.now() - beginTime
+      user_answer: userAnswerInt,
+      is_correct: add(number1, number2) === userAnswerInt,
+      time_spent: beginTime ? Date.now() - beginTime : null,
     });
+
+    generateNumbers();
   }
 
   // FRONT END
@@ -95,14 +100,14 @@ function App() {
         <button onClick={generateNumbers}>Generate Numbers</button>
         <form onSubmit={createUserGameHx}>
           <input 
-            type='number' 
-            value ={userAnswer} 
+            type="number"
+            value={userAnswer} 
             onChange={(e) => setUserAnswer(e.target.value)} 
             placeholder="?"
           />
-          <button type="submit" onClick={generateNumbers}>Submit Answer</button>
-          <div className="text-4xl font-bold text-blue-600">{beginTime}</div>
+          <button type="submit">Submit Answer</button>
         </form>
+        <div className="text-4xl font-bold text-blue-600">{beginTime}</div>
       </div>
     </main>
   );

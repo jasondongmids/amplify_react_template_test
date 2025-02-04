@@ -26,9 +26,9 @@ function App() {
                               })
   }
 
-  function deleteTodo(id: string) {
-    client.models.Todo.delete({ id })
-  }
+  // function deleteTodo(id: string) {
+  //   client.models.Todo.delete({ id })
+  // }
 
   return (
     <main>

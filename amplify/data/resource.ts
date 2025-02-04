@@ -22,7 +22,8 @@ const schema = a.schema({
       operation: a.string().default('+'),
       correct_answer: a.integer(),
       user_answer: a.integer(),
-      is_correct: a.boolean()
+      is_correct: a.boolean(),
+      time_spent: a.integer(),
     })
     .authorization((allow) => [allow.owner()]) // don't think we even need
 });

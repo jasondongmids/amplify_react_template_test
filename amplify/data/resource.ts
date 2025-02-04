@@ -13,6 +13,18 @@ const schema = a.schema({
       isDone: a.boolean().default(false)
     })
     .authorization((allow) => [allow.owner()]),
+
+  TESTUserGameHx: a
+    .model({
+      username: a.string(),
+      number1: a.integer(),
+      number2: a.integer(),
+      operation: a.string().default('+'),
+      correct_answer: a.integer(),
+      user_answer: a.integer(),
+      is_correct: a.boolean()
+    })
+    .authorization((allow) => [allow.owner()]) // don't think we even need
 });
 
 export type Schema = ClientSchema<typeof schema>;

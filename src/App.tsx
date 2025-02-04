@@ -16,13 +16,14 @@ function App() {
   }, []);
 
   function createTodo() {
-    client.models.Todo.create({ content: window.prompt("Todo content word change"),
-                                isDone: false
+    client.models.Todo.create({ content: window.prompt("Todo content word change")
      });
   }
 
   function updateTodo(id: string) {
-    client.models.Todo.update({ id }, { isDone: true })
+    client.models.Todo.update({ id: id,
+                                isDone: true
+                              })
   }
 
   function deleteTodo(id: string) {
@@ -34,11 +35,12 @@ function App() {
       <h1>{user?.signInDetails?.loginId}'s todos</h1>
       <button onClick={createTodo}>+ new</button>
       <ul>
-        {todos.filter(todo => !todo.isDone).map((todo) => (
-          <li
-          onClick={() => updateTodo(todo.id)} 
-          key={todo.id}>{todo.content}
-          </li>
+        {todos.filter(todo => !todo.isDone)
+              .map((todo) => (
+                <li
+                  onClick={() => updateTodo(todo.id)}
+                  key={todo.id}>{todo.content}
+                </li>
         ))}
       </ul>
       <div>

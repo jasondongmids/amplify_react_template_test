@@ -55,7 +55,7 @@ function App() {
     setBeginTime(Date.now());
   };
   // MATH GAME // CRUD
-  function createUserGameHx(e) {
+  function createUserGameHx(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const userAnswerInt = parseInt(userAnswer, 10) || 0;
     

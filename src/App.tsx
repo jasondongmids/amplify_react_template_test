@@ -100,10 +100,18 @@ function App() {
         import random
   
         def generate_random_number():
-          return 1
+          num1 = random.randint(1,10)
+          num2 = random.randint(1,10)
+          return f"{num1},{num2}"
   
         print(generate_random_number())
         `)
+
+        const [num1, num2] = stdout.trim().split(',').map(Number);
+
+        setNumber1(num1);
+        setNumber2(num2);
+        setBeginTime(Date.now())
     }
 
     return (
@@ -114,7 +122,7 @@ function App() {
         <p>Here: {stdout}</p>
         {isLoading? <p>Loading...</p> : <p>Ready!</p>}
         {stderr? <p>Error...</p> : <p>Ready!</p>}
-        {isRunning? <p>Loading...</p> : <p>Running!</p>}
+        {isRunning? <p>Loading...</p> : <p>Ready!</p>}
       </div>
     );
   }

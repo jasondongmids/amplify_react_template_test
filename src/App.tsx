@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import type { Schema } from "../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 import { useAuthenticator } from "@aws-amplify/ui-react";
-import { PythonProvider, usePython } from 'react-py';
+import { usePython } from 'react-py';
 
 const client = generateClient<Schema>();
 
@@ -113,6 +113,8 @@ function App() {
         </button>
         <p>Here: {stdout}</p>
         {isLoading? <p>Loading...</p> : <p>Ready!</p>}
+        {stderr? <p>Error...</p> : <p>Ready!</p>}
+        {isRunning? <p>Loading...</p> : <p>Running!</p>}
       </div>
     );
   }

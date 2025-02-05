@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { Schema } from "../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 import { useAuthenticator } from "@aws-amplify/ui-react";
+import { PythonProvider, usePython } from 'react-py';
 
 const client = generateClient<Schema>();
 
@@ -72,6 +73,51 @@ function App() {
     generateNumbers();
   }
 
+  // MATH GAME PYTHON
+
+  // const { loadPyodide } = require("pyodide");
+  // async function hello_python() {
+  //   let pyodide = await loadPyodide({
+  //     indexURL: "<pyodide artifacts folder>",
+  //   });
+  //   return pyodide.runPythonAsync("1+1");
+  // }
+  
+  // hello_python().then((result) => {
+  //   console.log("Python says that 1+1 =", result);
+  // });
+
+  function PythonComponent() {
+    const {runPython, stdout , stderr, isLoading, isRunning } = usePython();
+
+
+    const generateNumbersPython = async () => {
+      if (isLoading) {
+        return <div>Testing!</div>;
+      }
+
+      await runPython(`
+        import random
+  
+        def generate_random_number():
+          return 1
+  
+        print(generate_random_number())
+        `)
+    }
+
+    return (
+      <div>
+        <button onClick={async () => await generateNumbersPython()}>
+          Generate Numbers Python
+        </button>
+        <p>Here: {stdout}</p>
+        {isLoading? <p>Loading...</p> : <p>Ready!</p>}
+      </div>
+    );
+  }
+
+
   // FRONT END
   return (
     <main>
@@ -94,6 +140,8 @@ function App() {
         </a>
       </div>
         <button onClick={signOut}>Sign out</button>
+
+      {/* BACKEND TESTING */}
       <div className="flex justify-center space-x-8">
         Add these numbers
         <div className="text-4xl font-bold text-blue-600">{number1}</div> + <div className="text-4xl font-bold text-blue-600">{number2}</div>
@@ -109,6 +157,13 @@ function App() {
         </form>
         <div className="text-4xl font-bold text-blue-600">{beginTime}</div>
       </div>
+
+      {/* PYTHON TESTING */}
+      <div>
+        <PythonComponent />
+      </div>
+
+        
     </main>
   );
 }

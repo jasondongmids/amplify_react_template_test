@@ -3,13 +3,14 @@ import type { Schema } from "../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { usePython } from 'react-py';
+import GamePage from "./components/test.tsx"
 
 const client = generateClient<Schema>();
 
 function App() {
 
   // TO DO ACTIONS
-  const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
+  const [ todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
   const { user, signOut } = useAuthenticator();
 
   useEffect(() => {
@@ -107,11 +108,11 @@ function App() {
         print(generate_random_number())
         `)
 
-        const [num1, num2] = stdout.trim().split(',').map(Number);
+      const [num1, num2] = stdout.trim().split(',').map(Number);
 
-        setNumber1(num1);
-        setNumber2(num2);
-        setBeginTime(Date.now())
+      setNumber1(num1);
+      setNumber2(num2);
+      setBeginTime(Date.now())
     }
 
     return (
@@ -169,11 +170,12 @@ function App() {
       </div>
 
       {/* PYTHON TESTING */}
-      <div>
+      {/* <div>
         <PythonComponent />
+      </div> */}
+      <div>
+        <GamePage />
       </div>
-
-        
     </main>
   );
 }

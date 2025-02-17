@@ -38,17 +38,32 @@ const schema = a.schema({
       timestamp_created: a.datetime()
     }),
 
-    getUserState: a
-      .query()
-      .arguments({id: a.string().required()})
-      .returns(a.ref("Post"))
-      .authorization((allow) => [allow.publicApiKey()])
+    addUserState: a
+      .mutation()
+      .arguments({
+        user_stat: a.string().required(),
+        stat: a.string().required(),
+        current_streak: a.integer(),
+      })
+      .returns(a.ref("UserStateHx"))
+      .authorization(allow => [allow.publicApiKey()])
       .handler(
         a.handler.custom({
-          dataSource: "SourceUserStatsTest",
-          entry: "./getUserState.js"
+          dataSource: "UserStateHxTable3",
+          entry: "./addUserState.js",
         })
       )
+    // getUserState: a
+    //   .query()
+    //   .arguments({id: a.string().required()})
+    //   .returns(a.ref("UserStateHx"))
+    //   .authorization(allow => [allow.publicApiKey()])
+    //   .handler(
+    //     a.handler.custom({
+    //       dataSource: "UserStateHxTable",
+    //       entry: "./getUserState.js"
+    //     })
+    //   )
 
 });
 

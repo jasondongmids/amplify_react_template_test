@@ -12,11 +12,11 @@ const extDataSourcesStack = backend.createStack("ExternalDataSources");
 
 const extTable = aws_dynamodb.Table.fromTableName(
   extDataSourcesStack,
-  "UserStatsTest",
-  "UserStateHxTable"
+  "UserStatsTestName",
+  "UserStatsTest"
 )
 
 backend.data.addDynamoDbDataSource(
-  "UserStateHxTable",
+  "UserStateHxTable3",
   extTable
 )

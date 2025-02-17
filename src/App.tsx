@@ -170,9 +170,9 @@ function App() {
       </div>
 
       {/* PYTHON TESTING */}
-      {/* <div>
+      <div>
         <PythonComponent />
-      </div> */}
+      </div>
       <div>
         <GamePage />
       </div>

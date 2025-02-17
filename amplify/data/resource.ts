@@ -22,7 +22,8 @@ const schema = a.schema({
       user_answer: a.integer(),
       is_correct: a.boolean(),
       time_spent: a.integer(),
-    }),
+    })
+    .authorization((allow) => [allow.owner()]),
 
     // following steps here: https://docs.amplify.aws/react/build-a-backend/data/connect-to-existing-data-sources/connect-external-ddb-table/
     UserStateHx: a.customType({
@@ -36,7 +37,6 @@ const schema = a.schema({
       elapsed_time_total: a.integer(),
       timestamp_created: a.datetime()
     })
-
 });
 
 export type Schema = ClientSchema<typeof schema>;

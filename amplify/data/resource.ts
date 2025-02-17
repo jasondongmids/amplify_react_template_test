@@ -7,15 +7,13 @@ specifies that any user authenticated via an API key can "create", "read",
 "update", and "delete" any "Todo" records.
 =========================================================================*/
 const schema = a.schema({
-  Todo: a
-    .model({
+  Todo: a.model({
       content: a.string(),
       isDone: a.boolean().default(false)
     })
     .authorization((allow) => [allow.owner()]),
 
-  TESTUserGameHx: a
-    .model({
+  TESTUserGameHx: a.model({
       username: a.string(),
       number1: a.integer(),
       number2: a.integer(),
@@ -25,7 +23,19 @@ const schema = a.schema({
       is_correct: a.boolean(),
       time_spent: a.integer(),
     })
-    .authorization((allow) => [allow.owner()]) // don't think we even need
+
+    UserStateHx: a.customType({
+      user_stat: a.string().required(),
+      stat: a.string().required(),
+      current_streak: a.integer(),
+      total_questions: a.integer(),
+      state: a.integer(),
+      prev_is_slow: a.integer(),
+      prev_is_correct: a.integer(),
+      elapsed_time_total: a.integer(),
+      timestamp_created: a.datetime()
+    })
+
 });
 
 export type Schema = ClientSchema<typeof schema>;

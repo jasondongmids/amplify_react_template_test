@@ -30,7 +30,7 @@ async function addUserState(event: React.FormEvent<HTMLFormElement>) {
 const GamePage: React.FC<GamePageProps> = () => {
 //   const [userState, setUserState] = useState<Array<Schema["UserStateHx"]["type"]>>([]);
   const [inputValue, setInputValue] = useState<string>('');
-  const [arrayData, setArrayData] = useState<ParsedArray>([]);
+//   const [arrayData, setArrayData] = useState<ParsedArray>([]);
 
 //   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 //     e.preventDefault();

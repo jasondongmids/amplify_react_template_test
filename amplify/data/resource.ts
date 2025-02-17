@@ -22,8 +22,9 @@ const schema = a.schema({
       user_answer: a.integer(),
       is_correct: a.boolean(),
       time_spent: a.integer(),
-    })
+    }),
 
+    // following steps here: https://docs.amplify.aws/react/build-a-backend/data/connect-to-existing-data-sources/connect-external-ddb-table/
     UserStateHx: a.customType({
       user_stat: a.string().required(),
       stat: a.string().required(),

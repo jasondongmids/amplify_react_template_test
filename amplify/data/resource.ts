@@ -42,7 +42,7 @@ const schema = a.schema({
       .query()
       .arguments({id: a.string().required()})
       .returns(a.ref("Post"))
-      .authorization((allow) => [allow.all()])
+      .authorization((allow) => [allow.publicApiKey()])
       .handler(
         a.handler.custom({
           dataSource: "SourceUserStatsTest",

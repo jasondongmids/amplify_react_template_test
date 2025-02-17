@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { generateClient } from "aws-amplify/data";
 import type { Schema } from "../../amplify/data/resource";
 
-type ParsedArray = (string | number | boolean | null | undefined)[];
+// type ParsedArray = (string | number | boolean | null | undefined)[];
 
 type GamePageProps = {};
 

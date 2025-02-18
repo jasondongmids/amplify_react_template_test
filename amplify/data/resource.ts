@@ -26,7 +26,7 @@ const schema = a.schema({
     .authorization((allow) => [allow.owner()]),
 
     // following steps here: https://docs.amplify.aws/react/build-a-backend/data/connect-to-existing-data-sources/connect-external-ddb-table/
-    UserStateHx: a.customType({
+  UserStateHx: a.customType({
       user_stat: a.string().required(),
       stat: a.string().required(),
       current_streak: a.integer(),
@@ -38,33 +38,37 @@ const schema = a.schema({
       timestamp_created: a.datetime()
     }),
 
+    // arguments: arguments allowed for addUserState
     addUserState: a
       .mutation()
       .arguments({
         user_stat: a.string().required(),
-        stat: a.string().required(),
+        stat: a.string(),
         current_streak: a.integer(),
       })
-      .returns(a.ref("UserStateHx"))
-      .authorization(allow => [allow.publicApiKey()])
+      .returns(a.ref("UserStateHx")) // how to return an array
+      .authorization(allow => [allow.authenticated()])
       .handler(
         a.handler.custom({
           dataSource: "UserStateHxTable3",
-          entry: "./addUserState.js",
+          entry: "./addUserState.js", // linked with resolver file in AWS AppSync API
         })
-      )
-    // getUserState: a
-    //   .query()
-    //   .arguments({id: a.string().required()})
-    //   .returns(a.ref("UserStateHx"))
-    //   .authorization(allow => [allow.publicApiKey()])
-    //   .handler(
-    //     a.handler.custom({
-    //       dataSource: "UserStateHxTable",
-    //       entry: "./getUserState.js"
-    //     })
-    //   )
+      ),
 
+    getUserState: a
+      .query()
+      .arguments({
+        user_stat: a.string().required(),
+        limit: a.integer(),
+      })
+      .returns(a.ref("UserStateHx"))
+      .authorization(allow => [allow.authenticated()])
+      .handler(
+        a.handler.custom({
+          dataSource: "UserStateHxTable3",
+          entry: "./getUserState.js"
+        })
+      ),
 });
 
 export type Schema = ClientSchema<typeof schema>;

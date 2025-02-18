@@ -8,15 +8,16 @@ export const backend = defineBackend({
   data,
 });
 
+// These steps create a schema? and datasource in AWS AppSync
 const extDataSourcesStack = backend.createStack("ExternalDataSources");
 
 const extTable = aws_dynamodb.Table.fromTableName(
   extDataSourcesStack,
-  "UserStatsTestName",
-  "UserStatsTest"
+  "UserStatsTestName", // name for construct; not used
+  "UserStatsTest" // name for table
 )
 
 backend.data.addDynamoDbDataSource(
-  "UserStateHxTable3",
+  "UserStateHxTable3", // name as it appears in AWS AppSync API
   extTable
 )

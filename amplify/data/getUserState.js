@@ -1,15 +1,27 @@
+import { util } from '@aws-appsync/utils';
 import * as ddb from "@aws-appsync/utils/dynamodb";
 
 export function request(ctx) {
-    return ddb.query({
+    // const userStat = `STATE#${ctx.arguments?.user_stat}`;
+    console.log('Context:', ctx)
+    const userStat = ctx.arguments.user_stat
+    const limit = ctx.arguments.limit
+
+    console.log('userStat:', userStat)
+
+    return {
+        operation: 'Query',
         query: {
-            expression: "#us = :userStat",
-            expressionNames: { "#us": "user_stat"},
-            expressionValues: { ":userStat": ddb.attr(ctx.args.user_stat)},
+            expression: "#us = :userStat" ,
+            expressionNames: { "#us": "user_stat" },
+            expressionValues: util.dynamodb.toMapValues({ ":userStat": userStat }),
         },
         scanIndexForward: false,
-        limit: 1
-     });
+        limit: limit,
+    };
 }
 
-export const response = (ctx) => ctx.result;
+export function response(ctx) {
+    console.log('Context (After):', ctx)
+    return ctx.result.items.length > 0 ? ctx.result.items : null;
+}

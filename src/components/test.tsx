@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { generateClient } from "aws-amplify/data";
 import type { Schema } from "../../amplify/data/resource";
 
-// type ParsedArray = (string | number | boolean | null | undefined)[];
+type UserState = Record<string, unknown>; 
 
 type GamePageProps = {};
 
@@ -13,38 +13,44 @@ async function addUserState(event: React.FormEvent<HTMLFormElement>) {
 
     try {
         const { data, errors } = await client.mutations.addUserState({
-            user_stat: 'STATE#123',
-            stat: '123',
+            user_stat: '123',
             current_streak: 1
         });
+
         if (errors) {
-            console.error('Error from GraphQL mutation:', data, errors);
+            console.error('Error from GraphQL mutation:', errors);
         } else {
             console.log('User state added successfully!', data);
         }
     } catch (error) {
         console.error('Error adding user state:', error);
     }
-}
+};
+
+async function getUserState(setUserState: React.Dispatch<React.SetStateAction<UserState | null>>) {
+    try {
+        const { data, errors }= await client.queries.getUserState({
+            user_stat: 'STATE#94f8f458-7011-70fc-7929-0f5ea032f122',
+            limit: 5
+        });
+
+        if (errors) {
+            console.error('Error from GraphQL mutation:', errors);
+        } else {
+            console.log('Data:', data)
+            const userData = data ?? null;
+            console.log('User query successful', userData);
+            setUserState(userData);
+        }
+    } catch (error) {
+        console.error('Error querying user state:', error)
+    }
+};
 
 const GamePage: React.FC<GamePageProps> = () => {
 //   const [userState, setUserState] = useState<Array<Schema["UserStateHx"]["type"]>>([]);
   const [inputValue, setInputValue] = useState<string>('');
-//   const [arrayData, setArrayData] = useState<ParsedArray>([]);
-
-//   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-//     e.preventDefault();
-//     try {
-//       const parsed = JSON.parse(inputValue);
-//       if (Array.isArray(parsed)) {
-//         setArrayData(parsed);
-//       } else {
-//         alert('Please input a valid JSON array.');
-//       }
-//     } catch {
-//       alert('Invalid JSON format. Example: [1,2,3]');
-//     }
-//   };
+  const [userState, setUserState] = useState<UserState | null>(null);
 
   return (
     <div className="flex flex-col items-center p-4 space-y-4">
@@ -61,8 +67,13 @@ const GamePage: React.FC<GamePageProps> = () => {
         </button>
       </form>
       <div>
-        {setInputValue.length > 0 && (
-            <pre>{JSON.stringify(inputValue, null, 2)}</pre>
+        <button onClick={() => getUserState(setUserState)}>Get Last User State</button>
+      </div>
+      <div>
+        {userState && Object.keys(userState).length > 0 ? (
+            <pre>{JSON.stringify(userState, null, 2)}</pre>
+        ) : (
+            <p>No user state available</p>
         )}
       </div>
     </div>

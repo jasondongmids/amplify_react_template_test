@@ -7,6 +7,9 @@ type UserState = Record<string, unknown>;
 type GamePageProps = {};
 const client = generateClient<Schema>();
 
+// NOTE: The idea will be to put these functions into a separate file such as /amplify/data/query.ts 
+// which you can then import into your component/page. Unsure if one .ts for all functions or one .ts for
+// each data model
 async function addUserState(event: React.FormEvent<HTMLFormElement>, inputValue: string) {
     event.preventDefault();
 
@@ -29,8 +32,6 @@ async function addUserState(event: React.FormEvent<HTMLFormElement>, inputValue:
 async function getUserState(event: React.FormEvent<HTMLFormElement>, setUserState: React.Dispatch<React.SetStateAction<UserState | null>>, queryType: string, queryLimit: string) {
     event.preventDefault();
     try {
-        console.log('queryLimit', queryLimit)
-        console.log('queryLimit type', typeof queryLimit)
         const { data, errors }= await client.queries.getUserState({
             type: queryType,
             limit: parseInt(queryLimit)
@@ -47,6 +48,8 @@ async function getUserState(event: React.FormEvent<HTMLFormElement>, setUserStat
     }
 };
 
+
+// Example Test Forms
 const GamePage: React.FC<GamePageProps> = () => {
   const [inputValue, setInputValue] = useState<string>('');
   const [userState, setUserState] = useState<UserState | null>(null);
@@ -54,7 +57,6 @@ const GamePage: React.FC<GamePageProps> = () => {
   const [queryLimit, setQueryLimit] = useState<string>('');
 
   return (
-    // ADD USER TEST FORM
     <div className="flex flex-col items-center p-4 space-y-4">
       <form onSubmit={(e) => addUserState(e, inputValue)} className="flex space-x-2">
         <select

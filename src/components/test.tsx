@@ -38,7 +38,7 @@ async function getUserState(setUserState: React.Dispatch<React.SetStateAction<Us
             console.error('Error from GraphQL mutation:', errors);
         } else {
             console.log('User query successful', data);
-            setUserState(data as UserState);
+            setUserState(data as unknown as UserState);
         }
     } catch (error) {
         console.error('Error querying user state:', error)

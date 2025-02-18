@@ -36,8 +36,7 @@ const schema = a.schema({
     addUserState: a
       .mutation()
       .arguments({
-        user_stat: a.string().required(),
-        stat: a.string(),
+        type: a.string().required(),
         current_streak: a.integer(),
       })
       .returns(a.ref("UserStateHx")) // how to return an array .returns([a.ref("UserStateHx")])
@@ -52,7 +51,8 @@ const schema = a.schema({
     getUserState: a
       .query()
       .arguments({
-        user_stat: a.string().required(),
+        type: a.string().required(),
+        // user_stat: a.string().required(),
         limit: a.integer(),
       })
       .returns(a.ref("UserStateHx").array())

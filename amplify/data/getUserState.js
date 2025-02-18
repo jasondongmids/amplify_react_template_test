@@ -4,7 +4,8 @@ import * as ddb from "@aws-appsync/utils/dynamodb";
 export function request(ctx) {
     // const userStat = `STATE#${ctx.arguments?.user_stat}`;
     console.log('Context:', ctx)
-    const userStat = ctx.arguments.user_stat
+    // const userStat = ctx.arguments.user_stat
+    const userStat = `${ctx.arguments.type}#${ctx.identity.sub}`
     const limit = ctx.arguments.limit
 
     console.log('userStat:', userStat)

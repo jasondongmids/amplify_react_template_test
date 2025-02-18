@@ -31,16 +31,14 @@ async function getUserState(setUserState: React.Dispatch<React.SetStateAction<Us
     try {
         const { data, errors }= await client.queries.getUserState({
             user_stat: 'STATE#94f8f458-7011-70fc-7929-0f5ea032f122',
-            limit: 5
+            limit: 1
         });
 
         if (errors) {
             console.error('Error from GraphQL mutation:', errors);
         } else {
-            console.log('Data:', data)
-            const userData = data ?? null;
-            console.log('User query successful', userData);
-            setUserState(userData);
+            console.log('User query successful', data);
+            setUserState(data as UserState);
         }
     } catch (error) {
         console.error('Error querying user state:', error)

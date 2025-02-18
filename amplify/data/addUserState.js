@@ -7,7 +7,7 @@ export function request(ctx) {
     const userStat = ctx.identity.sub // example: 94f8f458-7011-70fc-7929-0f5ea032f122::94f8f458-7011-70fc-7929-0f5ea032f122
     // const userStat = ctx.identity.username // example: seems to be same as above
     const stat = util.time.nowISO8601(); // https://docs.aws.amazon.com/appsync/latest/devguide/time-helpers-in-util-time-js.html
-    
+    console.log('Context:', ctx)
     const item = {
         current_streak: ctx.arguments.current_streak,
     };
@@ -19,5 +19,6 @@ export function request(ctx) {
 }
 
 export function response(ctx) {
+    console.log('Context:', ctx)
     return ctx.result
 }

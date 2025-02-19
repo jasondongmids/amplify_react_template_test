@@ -21,3 +21,14 @@ backend.data.addDynamoDbDataSource(
   "UserStateHxTable3", // name as it appears in AWS AppSync API
   extTable
 )
+
+const gamesTable = aws_dynamodb.Table.fromTableName(
+  extDataSourcesStack,
+  "MathGame",
+  "math-game-questions-v1"
+)
+
+backend.data.addDynamoDbDataSource(
+  "ExternalGamesTable",
+  gamesTable
+)

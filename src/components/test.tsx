@@ -2,14 +2,23 @@ import React, { useState } from 'react';
 import { generateClient } from "aws-amplify/data";
 import type { Schema } from "../../amplify/data/resource";
 
+// How is everything related?
+// Step 1: amplify/resource.ts: define schema customType for external ddb data model. This is used for type checking for the mutations/queries for returns(a.ref()) 
+// Step 2: amplify/backend.ts: define external data model. Definition adds a data source to AppSync GraphQL API to application. AppSync > select API > Data Sources
+// Step 3: amplify/resource.ts: define query and mutation functions for AppSync. 
+// Step 4: amplify/data/*.js: these are the custom resolver; graphQL queries which AppSync uses to query ddb. AppSync > select API > Functions
+// Step 5: currently in test.tsx: further define how we want to mutate/query using resolver via javascript functions
+
+// NOTE: 
+// The idea will be to put these functions into a separate file such as /amplify/data/query.ts 
+// which you can then import into your component/page. Unsure if one .ts for all functions or one .ts for
+// each data model.
+
 // another option is to do something like const [ todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
 type UserState = Record<string, unknown>; 
 type GamePageProps = {};
 const client = generateClient<Schema>();
 
-// NOTE: The idea will be to put these functions into a separate file such as /amplify/data/query.ts 
-// which you can then import into your component/page. Unsure if one .ts for all functions or one .ts for
-// each data model
 async function addUserState(event: React.FormEvent<HTMLFormElement>, inputValue: string) {
     event.preventDefault();
 
